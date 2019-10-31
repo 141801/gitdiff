@@ -1,0 +1,17 @@
+変更があったファイルだけエクスポートする
+https://qiita.com/usamik26/items/560830841525c1efa9f5
+
+以下のコマンドで、OLD_COMMIT と NEW_COMMIT の間に変更があったファイルだけ取り出せる。
+OLD_COMMIT バージョンが old ディレクトリに、NEW_COMMIT バージョンが new ディレクトリに出力される。
+
+
+OLD_COMMIT=$1
+NEW_COMMIT=$2
+for file in `git diff --name-only $OLD_COMMIT $NEW_COMMIT` ; do
+    git archive --prefix=old/ $OLD_COMMIT $file | tar -xf - ;
+    git archive --prefix=new/ $NEW_COMMIT $file | tar -xf - ;
+done
+
+• git diff --name-only で違いがあるファイルの名前だけを取得する
+• git archive でそのファイルを取り出す
+
